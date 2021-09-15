@@ -1,5 +1,5 @@
 # WebGallery
-A simple web application with image upload feature
+Node js kullanarak basit bir web galeri uygulaması yapımı.
 
 <ul>
     <li>
