@@ -1,5 +1,5 @@
-# WebGallery
-Node js kullanarak basit bir web galeri uygulaması yapımı. [DEMO](https://glacial-river-70401.herokuapp.com/)
+# WebGallery ## [DEMO](https://glacial-river-70401.herokuapp.com/)
+Node js kullanarak basit bir web galeri uygulaması yapımı. 
 
 <ul>
     <li>
