@@ -41,8 +41,11 @@ app.use(function (req, res, next) {
 });
 app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css"));
 app.use("/css", express.static(__dirname + "/node_modules/lightbox2/dist/css"));
-app.use("/images",express.static(__dirname + "/node_modules/lightbox2/dist/images"));
-app.use("/images",express.static(__dirname + "/uploads"));
+app.use(
+  "/images",
+  express.static(__dirname + "/node_modules/lightbox2/dist/images")
+);
+app.use("/images", express.static(__dirname + "/uploads"));
 app.use("/js", express.static(__dirname + "/node_modules/lightbox2/dist/js"));
 app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js"));
 app.use("/js", express.static(__dirname + "/node_modules/jquery/dist"));
@@ -54,16 +57,19 @@ mongoose.connect(
   process.env.DATABASE_URL,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   },
   (err) => {
-    console.log("Mongoose connetcion - Ready state is:",mongoose.connection.readyState);
+    console.log(
+      "Mongoose connetcion - Ready state is:",
+      mongoose.connection.readyState
+    );
   }
 );
 
 app.post("/upload", upload.single("photo"), (req, res, next) => {
   var obj = {
-    url:"images/"+req.file.originalname,
+    url: "images/" + req.file.originalname,
     img: {
       data: fs.readFileSync(
         path.join(__dirname + "/uploads/" + req.file.filename)
@@ -73,22 +79,33 @@ app.post("/upload", upload.single("photo"), (req, res, next) => {
   };
   Gallery.create(obj, (err, item) => {
     if (err) {
-      res.flash("errors",`${err}`);
+      res.flash("errors", `${err}`);
       console.log(err);
     } else {
-      req.flash("message",`${req.file.originalname}`);
+      req.flash("message", `${req.file.originalname}`+'yükleme islemi basarılı');
       res.redirect("/");
     }
   });
 });
 
-app.get("/",(req, res) => {
+app.get("/delete/:id", async (req, res) => {
+  Gallery.deleteOne({ _id: req.params.id }, (err, post) => {
+    if (err) {
+      req.flash("errors", `${err}`);
+    } else {
+      req.flash("message",'silme islemi basarılı');
+      res.redirect("/");
+    }
+  });
+});
+
+app.get("/", (req, res) => {
   Gallery.find({}, (err, found) => {
     if (err) {
       console.log(err);
       res.status(500).send("An error occurred", err);
     } else {
-      res.render("index", { found: found});
+      res.render("index", { found: found });
     }
   });
 });

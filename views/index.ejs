@@ -17,8 +17,10 @@
             font-family: 'Poppins', sans-serif;
             height: 100vh;
             width: 100%;
+            margin-bottom: 128px;
         }
-        nav{
+
+        nav {
             background: #333;
             padding: 12px;
             position: fixed;
@@ -28,6 +30,7 @@
             bottom: 0;
             left: 0;
         }
+
         .toast-container {
             position: fixed;
             right: 10px;
@@ -37,6 +40,13 @@
         .col-lg-6 {
             margin-top: 15rem;
         }
+        .content{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
     </style>
 </head>
 
@@ -44,17 +54,47 @@
     <div class="container">
         <section>
             <div class="header">
-                <h1>Web Gallery</h1><hr>
+                <h1>Web Gallery</h1>
+                <hr>
             </div>
             <div class="galery">
                 <div class="row">
                     <% found.forEach(function(image) { %>
-                    <div class="col-lg-3 col-md-6  my-1">
-                        <a href="<%= image.url %> " data-lightbox="example-1">
-                            <img class="img-fluid" src="data:image/<%=image.img.contentType%>;base64,<%=image.img.data.toString('base64')%>" alt="image-1" />
-                        </a>
-                    </div>
+                        <div class="col-lg-3 col-md-6  my-1">
+                            <a href="<%= image.url %> " data-lightbox="example-1">
+                                <img class="img-fluid"
+                                    src="data:image/<%=image.img.contentType%>;base64,<%=image.img.data.toString('base64')%>"
+                                    alt="image-1" />
+                            </a>
+                        </div>
                     <% }) %>
+                </div>
+            </div>
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title h4" id="deleteModalLabel">Select items to delete</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <% found.forEach(function(image) { %>
+                                <div class="my-1 d-flex">
+                                    <div class="img">
+                                        <img class="img-fluid" style="height: 64px;" src="data:image/<%=image.img.contentType%>;base64,<%=image.img.data.toString('base64')%>" alt="image-1" />
+                                    </div>
+                                    <div class="content">
+                                        <p style="white-space: nowrap; margin-left: 10px;"><%= image.url %></p>
+                                        <a href="/delete/<%=image._id %>" style="width: fit-content;"
+                                            class="btn bg-danger text-white bi-trash2-fill">
+                                        </a>
+                                    </div>
+                                </div><hr>
+                            <% }) %>
+                        </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </section>
@@ -62,12 +102,12 @@
             <form action="/upload" enctype="multipart/form-data" method="post">
                 <div class="input-group">
                     <input type="file" class="form-control" name="photo" accept="image/*">
-                    <input type="submit" class="btn btn-primary" value="Yükle"></input>
+                    <input type="submit" class="btn btn-primary" value="Upload"></input>
                 </div>
             </form>
             <div class="btn-group" role="group">
-                <button class="btn btn-success" disabled>İndir</button>
-                <button class="btn btn-danger" disabled>Sil</button>
+                <button class="btn btn-success" disabled>Download</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
             </div>
         </nav>
     </div>
@@ -75,31 +115,30 @@
         <% if (message && message.length> 0) { %>
             <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <strong class="me-auto text-success">Bildirim</strong>
+                    <strong class="me-auto text-success">Message</strong>
                     <small>
                         <%= message.length %>
                     </small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
-                    <%= message %> başarılı bir şekilde yüklendi.
+                    <%= message %>
                 </div>
             </div>
-        <% } if(errors && errors.length>0) {%>
-            <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto text-warning">Hata</strong>
-                    <small>
-                        <%= erros.length %>
-                    </small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"aria-label="Close"></button>
+            <% } if(errors && errors.length>0) {%>
+                <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto text-warning">Error</strong>
+                        <small>
+                            <%= erros.length %>
+                        </small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        <%= errors %>
+                    </div>
                 </div>
-                <div class="toast-body">
-                    <%= errors %>
-                </div>
-            </div>
-        <% } %>
+                <% } %>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
