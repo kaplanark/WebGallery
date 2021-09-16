@@ -33,18 +33,16 @@ app.use(
 );
 app.use(flash());
 app.set("view engine", "ejs");
-app.use(express.static("public"));
 app.use(function (req, res, next) {
   res.locals.errors = req.flash("error");
   res.locals.message = req.flash("message");
   next();
 });
+
+app.use(express.static("public"));
 app.use("/css", express.static(__dirname + "/node_modules/bootstrap/dist/css"));
 app.use("/css", express.static(__dirname + "/node_modules/lightbox2/dist/css"));
-app.use(
-  "/images",
-  express.static(__dirname + "/node_modules/lightbox2/dist/images")
-);
+app.use("/images",express.static(__dirname + "/node_modules/lightbox2/dist/images"));
 app.use("/images", express.static(__dirname + "/uploads"));
 app.use("/js", express.static(__dirname + "/node_modules/lightbox2/dist/js"));
 app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js"));

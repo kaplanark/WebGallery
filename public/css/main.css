@@ -1,0 +1,43 @@
+.body {
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  width: 100%;
+  margin-bottom: 128px;
+}
+
+nav {
+  background: #333;
+  padding: 12px;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+
+.toast-container {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content p {
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.modal {
+  display: none;
+}
+
+.modal-body .img-fluid{
+      height: 64px;
+}
