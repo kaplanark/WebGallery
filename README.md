@@ -21,4 +21,4 @@ Node js kullanarak basit bir web galeri uygulaması yapımı.
     </li>
 </ul>
 
-<img src="screenshot.png">
+<img src="ss.png">

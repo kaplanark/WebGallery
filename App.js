@@ -82,7 +82,7 @@ app.post("/upload", upload.single("photo"), (req, res, next) => {
       res.flash("errors", `${err}`);
       console.log(err);
     } else {
-      req.flash("message", `${req.file.originalname}`+'yükleme islemi basarılı');
+      req.flash("message", `${req.file.originalname}`+'upload successful');
       res.redirect("/");
     }
   });
@@ -93,7 +93,7 @@ app.get("/delete/:id", async (req, res) => {
     if (err) {
       req.flash("errors", `${err}`);
     } else {
-      req.flash("message",'silme islemi basarılı');
+      req.flash("message",'delete successful');
       res.redirect("/");
     }
   });
